@@ -37,7 +37,7 @@ namespace KartotekaMestLekce6
                     Rieka rieka = new Rieka();
                     while (!Enum.TryParse(formatovat(Console.ReadLine()), out rieka)) Console.WriteLine("Napiš platný název řeky.");
                     //Rieka nazevReky = (Rieka)14;
-                    Console.WriteLine(vypisList(seznamMest.Where(x => x.rieka.Contains(rieka)).OrderBy(x => x.nazev).ToList())); Console.ReadLine();
+                    Console.WriteLine(vypisList(seznamMest.Where(x => x.rieka.Contains(rieka)).OrderBy(x => x.nazev).ToList())); 
                     Console.ReadLine();
                     VyberMenu();
                     break;
@@ -45,14 +45,14 @@ namespace KartotekaMestLekce6
                     Console.Write("Zadej počet obyvatel pro vypsání měst s méně obyvateli než: ");
                     int obyvatele;
                     while (!int.TryParse(Console.ReadLine(), out obyvatele)) Console.WriteLine("Zadej kladné celé číslo.");
-                    Console.WriteLine(vypisList(seznamMest.Where(x => x.pocetObyvatel<obyvatele).OrderBy(x => x.nazev).ToList()));
+                    Console.WriteLine(vypisList(seznamMest.Where(x => x.pocetObyvatel<obyvatele).OrderByDescending(x => x.pocetObyvatel).ToList()));
                     Console.ReadLine();
                     VyberMenu();
                     break;
                 case 4:
                     Console.Write("Zadej počet obyvatel pro vypsání měst s více obyvateli než: ");
                     while (!int.TryParse(Console.ReadLine(), out obyvatele)) Console.WriteLine("Zadej kladné celé číslo.");
-                    Console.WriteLine(vypisList(seznamMest.Where(x => x.pocetObyvatel > obyvatele).OrderBy(x => x.nazev).ToList()));
+                    Console.WriteLine(vypisList(seznamMest.Where(x => x.pocetObyvatel > obyvatele).OrderByDescending(x => x.pocetObyvatel).ToList()));
                     Console.ReadLine();
                     VyberMenu();
                     break;
@@ -80,7 +80,7 @@ namespace KartotekaMestLekce6
                     break;
                 case 7:
                     Console.WriteLine("Výpis krajských měst na Labi: ");
-                    Console.WriteLine(vypisList(seznamMest.Where(x => x.jeKrajskeMesto==true && x.rieka.Contains((Rieka)9)).OrderBy(x => x.nazev).ToList()));
+                    Console.WriteLine(vypisList(seznamMest.Where(x => x.jeKrajskeMesto==true && x.rieka.Contains(Rieka.Labe)).OrderBy(x => x.nazev).ToList()));
                     Console.ReadLine();
                     VyberMenu();
                     break;
@@ -100,11 +100,13 @@ namespace KartotekaMestLekce6
             seznamMest.Add(new Mesto() { nazev = "Kolín", jeKrajskeMesto = false, kraj = Kraj.Středočeský, pocetObyvatel = 33289, rieka = new List<Rieka> { Rieka.Labe } });
             seznamMest.Add(new Mesto() { nazev = "Rychnov nad Kněžnou", jeKrajskeMesto = false, kraj = Kraj.Královéhradecký, pocetObyvatel = 11178, rieka = new List<Rieka> { } });
             seznamMest.Add(new Mesto() { nazev = "Jihlava", jeKrajskeMesto = true, kraj = Kraj.Vysočina, pocetObyvatel = 50891, rieka = new List<Rieka> { Rieka.Jihlava } });
+            seznamMest.Add(new Mesto() { nazev = "Děčín", jeKrajskeMesto = false, kraj = Kraj.Ústecký, pocetObyvatel = 47180, rieka = new List<Rieka> { Rieka.Labe, Rieka.Ploučnice } });
+            seznamMest.Add(new Mesto() { nazev = "Liberec", jeKrajskeMesto = true, kraj = Kraj.Liberecký, pocetObyvatel = 107389, rieka = new List<Rieka> { Rieka.Nisa } });
         }
         static string vypisList(List<Mesto> listMest)
         {
             StringBuilder sb = new StringBuilder();
-            foreach(var mesto in listMest) sb.Append(mesto.nazev+"\n");
+            foreach(var mesto in listMest) sb.Append(mesto.nazev.PadRight(25)+"počet obyvatel: "+mesto.pocetObyvatel+"\n");
             return sb.ToString();
         }
         static string formatovat(String s)

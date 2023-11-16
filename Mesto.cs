@@ -52,6 +52,7 @@ namespace KartotekaMestLekce6
         Morava,
         Moravice,
         Mže,
+        Nisa,
         Odra,
         Ohře,
         Orlice,
